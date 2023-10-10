@@ -1,12 +1,13 @@
-from src.phonebook import Phonebook
 import pytest
+
+from src.phonebook import Phonebook
 
 invalid_add_parameter_name = [
     ('#', '1234657890', 'Nome invalido', 'data input, name parameter = #'),
     ('@', '1234657890', 'Nome invalido', 'data input, name parameter = @'),
     ('!', '1234657890', 'Nome invalido', 'data input, name parameter = !'),
     ('$', '1234657890', 'Nome invalido', 'data input, name parameter = $'),
-    ('%', '1234657890', 'Nome invalido', 'data input, name parameter = %')
+    ('%', '1234657890', 'Nome invalido', 'data input, name parameter = %'),
 ]
 
 invalid_lookup_parameter_name = [
@@ -14,8 +15,9 @@ invalid_lookup_parameter_name = [
     ('@', 'Nome invalido', 'data input, name parameter = @'),
     ('!', 'Nome invalido', 'data input, name parameter = !'),
     ('$', 'Nome invalido', 'data input, name parameter = $'),
-    ('%', 'Nome invalido', 'data input, name parameter = %')
+    ('%', 'Nome invalido', 'data input, name parameter = %'),
 ]
+
 
 def test_new_instance_phonebook_should_be_one_contact():
     pb = Phonebook()
@@ -25,7 +27,9 @@ def test_new_instance_phonebook_should_be_one_contact():
         assert value == '190'
 
 
-@pytest.mark.parametrize("name, phone, expected_result, message", invalid_add_parameter_name)
+@pytest.mark.parametrize(
+    'name, phone, expected_result, message', invalid_add_parameter_name
+)
 def test_add_invalid_name_parameters(name, phone, expected_result, message):
     pb = Phonebook()
     actual_result = pb.add(name, phone)
@@ -36,21 +40,24 @@ def test_param_phone_str_len_zero():
     # o sistema nao vai permitir uma string vazia na chave len(phone) < 0
     pb = Phonebook()
     name = 'Huguinho'
-    phone = ""
+    phone = ''
     expected_result = 'Numero adicionado'
     actual_result = pb.add(name, phone)
     assert actual_result == expected_result
+
 
 def test_phone_sucess_scenario():
     pb = Phonebook()
     name = 'Huguinho'
-    phone = "123456789"
+    phone = '123456789'
     expected_result = 'Numero adicionado'
     actual_result = pb.add(name, phone)
     assert actual_result == expected_result
 
 
-@pytest.mark.parametrize("name, expected_result, message", invalid_lookup_parameter_name)
+@pytest.mark.parametrize(
+    'name, expected_result, message', invalid_lookup_parameter_name
+)
 def test_lookup_invalid_contact(name, expected_result, message):
     pb = Phonebook()
     actual_result = pb.lookup(name)
@@ -75,6 +82,7 @@ def test_lookup_contact_sucess():
     actual_result = pb.lookup(name)
     assert actual_result == number
 
+
 def test_lookup_contact_failed():
     # lookup deveria retornar mensagem tipo telefone nao encontrado.
     # colocar
@@ -86,7 +94,6 @@ def test_lookup_contact_failed():
     pb.add(name, number)
     actual_result = pb.lookup(name_not_found_in_phonebook)
     assert actual_result == expected_result
-
 
 
 def test_getname_all_names():
@@ -190,6 +197,7 @@ def test_delete_sucessfull():
     pb.add(name='luizinho', number='789')
     actual_result = pb.delete(name)
     assert actual_result == expected_result
+
 
 def test_delete_not_found():
     pb = Phonebook()
